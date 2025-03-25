@@ -9,12 +9,12 @@ class AuthenticationConfig(BaseSettings):
         validation_alias="LDAP_ENABLED"
     )
     AUTH_LDAP_SERVER_URI: str = Field(
-        "ldap://localhost",
+        "ldap://127.0.0.1:389",
         description="LDAP server address",
         validation_alias="AUTH_LDAP_SERVER_URI"
     )
     AUTH_LDAP_BIND_DN: str = Field(
-        "cn=admin,dc=example,dc=com",
+        "CN=admin,CN=testuser,DC=foo,DC=example,DC=org",
         description="LDAP Bind DN",
         validation_alias="AUTH_LDAP_BIND_DN"
     )
@@ -24,12 +24,12 @@ class AuthenticationConfig(BaseSettings):
         validation_alias="AUTH_LDAP_BIND_PASSWORD"
     )
     AUTH_LDAP_SEARCH_BASE_DN: str = Field(
-        default="OU=Limited Company,DC=example,DC=com",
+        default="OU=users,DC=foo,DC=example,DC=org",
         description="LDAP search base DN",
         validation_alias="AUTH_LDAP_SEARCH_BASE_DN"
     )
     AUTH_LDAP_USER_FILTER: str = Field(
-        "(objectClass=person)",
+        "(mail=%(user)s)",
         description="LDAP User Filter",
         validation_alias="AUTH_LDAP_USER_FILTER"
     )
