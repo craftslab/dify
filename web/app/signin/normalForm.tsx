@@ -8,6 +8,7 @@ import MailAndCodeAuth from './components/mail-and-code-auth'
 import MailAndPasswordAuth from './components/mail-and-password-auth'
 import SocialAuth from './components/social-auth'
 import SSOAuth from './components/sso-auth'
+import LdapAuth from './components/ldap-auth'
 import cn from '@/utils/classnames'
 import { getSystemFeatures, invitationCheck } from '@/service/common'
 import { LicenseStatus, defaultSystemFeatures } from '@/types/feature'
@@ -49,8 +50,8 @@ const NormalForm = () => {
       const features = await getSystemFeatures()
       const allFeatures = { ...defaultSystemFeatures, ...features }
       setSystemFeatures(allFeatures)
-      setAllMethodsAreDisabled(!allFeatures.enable_social_oauth_login && !allFeatures.enable_email_code_login && !allFeatures.enable_email_password_login && !allFeatures.sso_enforced_for_signin)
-      setShowORLine((allFeatures.enable_social_oauth_login || allFeatures.sso_enforced_for_signin) && (allFeatures.enable_email_code_login || allFeatures.enable_email_password_login))
+      setAllMethodsAreDisabled(!allFeatures.enable_social_oauth_login && !allFeatures.enable_ldap_auth_login && !allFeatures.enable_email_code_login && !allFeatures.enable_email_password_login && !allFeatures.sso_enforced_for_signin)
+      setShowORLine((allFeatures.enable_social_oauth_login || allFeatures.sso_enforced_for_signin) && (allFeatures.enable_ldap_auth_login) && (allFeatures.enable_email_code_login || allFeatures.enable_email_password_login))
       updateAuthType(allFeatures.enable_email_password_login ? 'password' : 'code')
       if (isInviteLink) {
         const checkRes = await invitationCheck({
@@ -144,6 +145,7 @@ const NormalForm = () => {
             {systemFeatures.sso_enforced_for_signin && <div className='w-full'>
               <SSOAuth protocol={systemFeatures.sso_enforced_for_signin_protocol} />
             </div>}
+            {systemFeatures.enable_ldap_auth_login && <LdapAuth />}
           </div>
 
           {showORLine && <div className="relative mt-6">

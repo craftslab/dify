@@ -828,6 +828,10 @@ class LoginConfig(BaseSettings):
         description="whether to enable github/google oauth login",
         default=False,
     )
+    ENABLE_LDAP_AUTH_LOGIN: bool = Field(
+        description="whether to enable ldap auth login",
+        default=False,
+    )
     EMAIL_CODE_LOGIN_TOKEN_EXPIRY_MINUTES: PositiveInt = Field(
         description="expiry time in minutes for email code login token",
         default=5,

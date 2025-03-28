@@ -24,10 +24,12 @@ from controllers.console.error import (
 )
 from controllers.console.wraps import setup_required
 from events.tenant_event import tenant_was_created
+from extensions.ext_database import db
 from libs.helper import email, extract_remote_ip
 from libs.password import valid_password
 from models.account import Account
 from services.account_service import AccountService, RegisterService, TenantService
+from services.auth.ldap_service import LdapService
 from services.billing_service import BillingService
 from services.errors.account import AccountRegisterError
 from services.errors.workspace import WorkSpaceNotAllowedCreateError
@@ -63,6 +65,31 @@ class LoginApi(Resource):
             language = "zh-Hans"
         else:
             language = "en-US"
+
+        if dify_config.LDAP_ENABLED:
+            ldap_service = LdapService()
+            account = ldap_service.authenticate(args["email"], args["password"])
+            if account is None:
+                return {
+                    "result": "fail",
+                    "data": "account not found",
+                }
+            login_record = LoginRecord(
+                account_id=account.id,
+                ip_address=ip,
+                user_agent=user_agent
+            )
+            db.session.add(login_record)
+            db.session.commit()
+            tenants = TenantService.get_join_tenants(account)
+            if len(tenants) == 0:
+                return {
+                    "result": "fail",
+                    "data": "workspace not found, please contact system admin to invite you to join in a workspace",
+                }
+            token_pair = AccountService.login(account=account, ip_address=extract_remote_ip(request))
+            AccountService.reset_login_error_rate_limit(args["email"])
+            return {"result": "success", "data": token_pair.model_dump()}
 
         try:
             if invitation:

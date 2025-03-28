@@ -105,6 +105,8 @@ const translation = {
   licenseLostTip: '无法连接 Dify 许可证服务器，请联系管理员以继续使用 Dify。',
   licenseInactive: '许可证未激活',
   licenseInactiveTip: '您所在空间的 Dify Enterprise 许可证尚未激活，请联系管理员以继续使用 Dify。',
+  emailOrUsername: '邮箱或用户名',
+  emailOrUsernamePlaceholder: '输入您的邮箱或用户名',
 }
 
 export default translation

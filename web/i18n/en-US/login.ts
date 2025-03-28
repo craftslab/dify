@@ -104,6 +104,8 @@ const translation = {
   licenseLostTip: 'Failed to connect Dify license server. Please contact your administrator to continue using Dify.',
   licenseInactive: 'License Inactive',
   licenseInactiveTip: 'The Dify Enterprise license for your workspace is inactive. Please contact your administrator to continue using Dify.',
+  emailOrUsername: 'Email or Username',
+  emailOrUsernamePlaceholder: 'Enter your email or username',
 }
 
 export default translation

@@ -105,6 +105,8 @@ const translation = {
   licenseInactive: '許可證處於非活動狀態',
   licenseInactiveTip: '您的工作區的 Dify Enterprise 許可證處於非活動狀態。請聯繫您的管理員以繼續使用 Dify。',
   licenseLostTip: '無法連接 Dify 許可證伺服器。請聯繫您的管理員以繼續使用 Dify。',
+  emailOrUsername: '郵箱或使用者名稱',
+  emailOrUsernamePlaceholder: '輸入您的郵箱或使用者名稱',
 }
 
 export default translation
